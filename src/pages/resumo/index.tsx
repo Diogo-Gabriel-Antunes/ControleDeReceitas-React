@@ -7,11 +7,13 @@ import { IResumo } from "../../interfaces/IResumo"
 
 
 const Resumo = ()=>{
-  const [data,setData] = useState(new Date())
+  const hoje= new Date()
+  const [data,setData] = useState(`${hoje.getFullYear()}-${hoje.getMonth()}-${hoje.getDay()}`)
   const [resumo,setResumo] = useState<IResumo |undefined>()
   useEffect(()=>{
-    let mes = data.getMonth() + 1;
-    axios.get(`http://localhost:8080/resumo/${data.getFullYear()}/${mes}`)
+    let dataApi = new Date(data)
+    let mes = dataApi.getMonth() + 1;
+    axios.get(`http://localhost:8080/resumo/${dataApi.getFullYear()}/${mes}`)
     .then(resposta => setResumo(resposta.data))
   },[data])
   
@@ -22,7 +24,7 @@ const Resumo = ()=>{
           <h1 className="font-bold text-4xl mb-8">Resumo do mes</h1>
           <p>Aqui fica seu resumo do mes</p>
           
-          <TextField id="outlined-basic" type='date' variant="outlined" value={data} sx={{mt:8}} onChange={(evento=>setData(new Date(evento.target.value)))} />
+          <TextField id="outlined-basic" type='date' variant="outlined" value={data} sx={{mt:8}} onChange={evento=>setData(evento.target.value)} />
           <TabelaResumos resumo={resumo}/>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import IDespesas from "../../interfaces/IDespesas"
@@ -56,6 +56,8 @@ const TabelaDespesas = (props: Props) => {
             <TableCell align ="right">Valor</TableCell>
             <TableCell align ="right">Data</TableCell>
             <TableCell align ="right">Categoria</TableCell>
+            <TableCell align ="right">Editar</TableCell>
+            <TableCell align ="right">Deletar</TableCell>
           </TableRow>
           <TableBody>
           {props.Despesas && props.Despesas.map(item => (
@@ -65,6 +67,8 @@ const TabelaDespesas = (props: Props) => {
               <TableCell align ="right">{item.valor}</TableCell>
               <TableCell align ="right">{item.data}</TableCell>
               {categoria(item.categoria_id)}
+              <TableCell align="right"><Button><Link to={`${item.id}`}>editar</Link></Button></TableCell>
+              <TableCell align="right"><Button onClick={()=>props.excluir(item)}>Deletar</Button></TableCell>
               
             </TableRow>
           ))}

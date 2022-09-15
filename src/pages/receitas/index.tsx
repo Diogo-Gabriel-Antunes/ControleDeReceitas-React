@@ -11,14 +11,15 @@ function correcaoDoMes(mes:number){
 
 const Receitas = ()=>{
   const [receitas,setReceitas] = useState<IReceitas[]|undefined >()
-  const [data,setData] = useState(new Date());
+  const [data,setData] = useState('');
 
 
   
 
   useEffect(()=>{
-    let mes = data.getMonth() + 1;
-    axios.get(`http://localhost:8080/receitas/${data.getFullYear()}/${mes}`)
+    let dataParaApi = new Date(data);
+    let mes = dataParaApi.getMonth() + 1;
+    axios.get(`http://localhost:8080/receitas/${dataParaApi.getFullYear()}/${mes}`)
     .then(resposta=> setReceitas(resposta.data.receitas))
   },[data])
 
@@ -40,7 +41,7 @@ const Receitas = ()=>{
         <h1 className="font-bold text-4xl">Receitas</h1>
         <p className="mt-8">Aqui esta todas as receitas</p>
         
-        <TextField id="outlined-basic" type='date' variant="outlined" value={data} sx={{mt:8}} onChange={evento=>setData(new Date(evento.target.value))} />
+        <TextField id="outlined-basic" type='date' variant="outlined" value={data} sx={{mt:8}} onChange={evento=>setData(evento.target.value)} />
       </div>
       <TabelaReceita Receitas={receitas} excluir={excluir}/>
     </div>
